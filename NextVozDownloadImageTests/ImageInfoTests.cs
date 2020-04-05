@@ -19,7 +19,8 @@ namespace NextVozDownloadImage.Tests
             { 
                 Name = "AAAA",
                 Url = "next.voz.vn",
-                Extension = "png"
+                Extension = "png",
+                Data= new byte[10]
             }.GetFileName();
 
             Assert.IsTrue(fileName.Contains("AAAA"));
