@@ -19,7 +19,7 @@ namespace NextVozDownloadImage
     {
         private const string BUTTON_PAUSE_TEXT = "Tạm ngừng";
         private const string BUTTON_STOP_TEXT = "Ngừng";
-        private NextVozDownloadImage _downloader = null; 
+        private NextVozDownloadImage _downloader = null;
 
         public Form1()
         {
@@ -86,7 +86,7 @@ namespace NextVozDownloadImage
             }
 
             btnLogin.Enabled = string.IsNullOrEmpty(Setting.Instance.Cookies);
-             
+
             _downloader = new NextVozDownloadImage();
 
             if (!string.IsNullOrEmpty(Setting.Instance.Link))
@@ -110,7 +110,7 @@ namespace NextVozDownloadImage
             Status.Init(lbStatus, lbTotalDownloaded, lbTotalSize);
             DownloadProcess.Init(lv);
         }
-         
+
         public static void SetDoubleBuffered(System.Windows.Forms.Control c)
         {
             //Taxes: Remote Desktop Connection and painting
@@ -186,7 +186,7 @@ namespace NextVozDownloadImage
             Setting.Save();
 
             if (_downloader == null || !_downloader.IsDownloading)
-            { 
+            {
                 _downloader = new NextVozDownloadImage();
 
                 _downloader.DownloadFinishEvent += (sender) =>
@@ -255,7 +255,7 @@ namespace NextVozDownloadImage
                     this.Text = $"NextVoz Download Image - {info.Name} - Page: {info.Page}";
                 }));
 
-                Status.Set($"Thread: {info.Name} - Page: {info.Page}"); 
+                Status.Set($"Thread: {info.Name} - Page: {info.Page}");
             }
             catch (Exception ex)
             {
@@ -303,7 +303,7 @@ namespace NextVozDownloadImage
 
         private void txtSavePath_TextChanged(object sender, EventArgs e)
         {
-            Setting.Instance.SavePath = txtSavePath.Text; 
+            Setting.Instance.SavePath = txtSavePath.Text;
         }
 
         private void grOptions_Enter(object sender, EventArgs e)
@@ -313,7 +313,7 @@ namespace NextVozDownloadImage
 
         private void nrMaxImageInSubDirectory_ValueChanged(object sender, EventArgs e)
         {
-            Setting.Instance.MaxImageInSubDirectory = (int)nrMaxImageInSubDirectory.Value; 
+            Setting.Instance.MaxImageInSubDirectory = (int)nrMaxImageInSubDirectory.Value;
         }
 
         private void nrNumberThreads_ValueChanged(object sender, EventArgs e)
@@ -357,7 +357,7 @@ namespace NextVozDownloadImage
 
             btnSelectSavePath.Enabled = txtSavePath.Enabled = !cbCreateDirByThreadName.Checked;
 
-          //  createStore();
+            //  createStore();
         }
     }
 }

@@ -39,42 +39,42 @@
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(88, 21);
+            this.txtUserName.Location = new System.Drawing.Point(83, 18);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(159, 23);
+            this.txtUserName.Size = new System.Drawing.Size(149, 20);
             this.txtUserName.TabIndex = 0;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(88, 56);
+            this.txtPassword.Location = new System.Drawing.Point(83, 49);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(159, 23);
+            this.txtPassword.Size = new System.Drawing.Size(149, 20);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 24);
+            this.label1.Location = new System.Drawing.Point(19, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 15);
+            this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Tài khoản:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 59);
+            this.label2.Location = new System.Drawing.Point(19, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 15);
+            this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Mật khẩu:";
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(22, 207);
+            this.btnLogin.Location = new System.Drawing.Point(19, 179);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(225, 25);
+            this.btnLogin.Size = new System.Drawing.Size(213, 28);
             this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "Đăng nhập";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -82,26 +82,26 @@
             // 
             // rbCookies
             // 
-            this.rbCookies.Location = new System.Drawing.Point(22, 109);
+            this.rbCookies.Location = new System.Drawing.Point(19, 94);
             this.rbCookies.Name = "rbCookies";
-            this.rbCookies.Size = new System.Drawing.Size(225, 83);
+            this.rbCookies.Size = new System.Drawing.Size(213, 72);
             this.rbCookies.TabIndex = 2;
             this.rbCookies.Text = "";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 91);
+            this.label3.Location = new System.Drawing.Point(19, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(124, 15);
+            this.label3.Size = new System.Drawing.Size(113, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Hoặc sử dụng Cookie:";
             // 
             // FormLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(265, 245);
+            this.ClientSize = new System.Drawing.Size(260, 231);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.rbCookies);
             this.Controls.Add(this.btnLogin);

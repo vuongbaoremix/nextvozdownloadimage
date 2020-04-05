@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
+using System.Text; 
 
 namespace NextVozDownloadImage
 {
@@ -32,7 +32,7 @@ namespace NextVozDownloadImage
                 {
                     var json = System.IO.File.ReadAllText(SETTING_PATH);
 
-                    return JsonSerializer.Deserialize<Setting>(json);
+                    return JsonConvert.DeserializeObject<Setting>(json);
                 }
             }
             catch
@@ -44,7 +44,7 @@ namespace NextVozDownloadImage
 
         public static void Save()
         {
-            var json = JsonSerializer.Serialize(Instance);
+            var json = JsonConvert.SerializeObject(Instance);
 
             System.IO.File.WriteAllText(SETTING_PATH, json);
         }

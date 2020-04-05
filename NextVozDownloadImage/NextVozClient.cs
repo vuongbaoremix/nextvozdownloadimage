@@ -95,7 +95,7 @@ namespace NextVozDownloadImage
                   .GetCookies(new Uri(NEXT_VOZ_HOME))
                   .Cast<Cookie>().Select(item => item.Name + "=" + item.Value);
 
-            return string.Join(';', cookies);
+            return string.Join(";", cookies);
         }
 
         public async Task Login(string userName, string password)

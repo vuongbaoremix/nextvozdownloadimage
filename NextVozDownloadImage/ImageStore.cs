@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Text; 
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -55,7 +54,7 @@ namespace NextVozDownloadImage
             {
                 if (File.Exists(this._infoPath))
                 {
-                    return JsonSerializer.Deserialize<DownloadedInfo>(this._infoPath);
+                    return JsonConvert.DeserializeObject<DownloadedInfo>(this._infoPath);
                 }
             }
             catch
@@ -130,7 +129,7 @@ namespace NextVozDownloadImage
         {
             lock (_objLockInfo)
             {
-                System.IO.File.WriteAllText(_infoPath, JsonSerializer.Serialize(this.Info));
+                System.IO.File.WriteAllText(_infoPath, JsonConvert.SerializeObject(this.Info));
             }
         }
 
