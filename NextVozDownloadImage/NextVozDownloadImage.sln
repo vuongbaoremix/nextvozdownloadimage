@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29521.150
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextVozDownloadImage", "NextVozDownloadImage.csproj", "{3853BADA-3870-46F3-9712-277F4DA0490B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextVozDownloadImageTests", "..\NextVozDownloadImageTests\NextVozDownloadImageTests.csproj", "{9D14AAF8-D771-4CC9-9039-B6836C254168}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3853BADA-3870-46F3-9712-277F4DA0490B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3853BADA-3870-46F3-9712-277F4DA0490B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3853BADA-3870-46F3-9712-277F4DA0490B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3853BADA-3870-46F3-9712-277F4DA0490B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D14AAF8-D771-4CC9-9039-B6836C254168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D14AAF8-D771-4CC9-9039-B6836C254168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D14AAF8-D771-4CC9-9039-B6836C254168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D14AAF8-D771-4CC9-9039-B6836C254168}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DFBD3B4-4851-40F3-9744-9B30939A6E07}
+	EndGlobalSection
+EndGlobal
