@@ -17,7 +17,17 @@ namespace NextVozDownloadImage
         public byte[] Data { set; get; }
 
 
+        private string getValidName(string fileName)
+        {
+            var s = fileName;
 
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                s = s.Replace(c, '_');
+            }
+
+            return s;
+        }
         public string GetFileName()
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
@@ -29,7 +39,7 @@ namespace NextVozDownloadImage
                 stringBuilder.Append(b.ToString("x2"));
             }
 
-            return $"{Name}_{stringBuilder.ToString()}.{Extension}";
+            return $"{getValidName($"{Name}_{stringBuilder.ToString()}")}.{Extension}";
         }
     }
 }
