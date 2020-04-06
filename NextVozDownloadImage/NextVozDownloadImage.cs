@@ -59,10 +59,10 @@ namespace NextVozDownloadImage
         private string getImageUrl(string url)
         {
             if (url.StartsWith("http"))
-                return url;
+                return url.Replace("&amp;", "&");
 
             if (url.StartsWith("//"))
-                return $"http:{url}";
+                return $"http:{url}".Replace("&amp;", "&");
 
             return $"https://next.voz.vn/{url.TrimStart('/')}";
         }
@@ -162,7 +162,7 @@ namespace NextVozDownloadImage
                             this._downloadedImage.Add(hashCode);
 
                             try
-                            {
+                            { 
                                 _store.Info.LastDownloadedPage = NextVozRegex.GetPage(item.Item1);
 
                                 using (var downloader = new ImageDownloader(item.Item2, Setting.Instance.Cookies))
