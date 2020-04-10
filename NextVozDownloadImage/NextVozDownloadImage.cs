@@ -94,6 +94,7 @@ namespace NextVozDownloadImage
 
                                 var images = NextVozRegex.GetImages(content).Select(url => getImageUrl(url));
                                 var attachments = NextVozRegex.GetAttachmentImages(content).Select(url => getImageUrl($"attachments/{url}"));
+                                var linkExternal = NextVozRegex.GetImageInLinkExternal(content).Select(url => getImageUrl(url));
 
                                 foreach (var item in images)
                                 {
@@ -101,6 +102,11 @@ namespace NextVozDownloadImage
                                 }
 
                                 foreach (var item in attachments)
+                                {
+                                    _images.Enqueue(new Tuple<string, string>(page, item));
+                                }
+
+                                foreach (var item in linkExternal)
                                 {
                                     _images.Enqueue(new Tuple<string, string>(page, item));
                                 }
@@ -162,7 +168,7 @@ namespace NextVozDownloadImage
                             this._downloadedImage.Add(hashCode);
 
                             try
-                            { 
+                            {
                                 _store.Info.LastDownloadedPage = NextVozRegex.GetPage(item.Item1);
 
                                 using (var downloader = new ImageDownloader(item.Item2, Setting.Instance.Cookies))
