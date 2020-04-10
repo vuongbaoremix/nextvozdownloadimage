@@ -39,7 +39,7 @@ namespace NextVozDownloadImage
                 stringBuilder.Append(b.ToString("x2"));
             }
 
-            return $"{getValidName($"{Name}_{stringBuilder.ToString()}")}.{Extension}";
+            return $"{getValidName($"{new string(Name.Take(32).ToArray())}_{stringBuilder.ToString()}")}.{Extension}";
         }
     }
 }
