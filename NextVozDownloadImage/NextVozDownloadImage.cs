@@ -43,7 +43,7 @@ namespace NextVozDownloadImage
 
             var info = new ThreadInfo();
             info.ThreadId = id;
-            info.Url = $"https://next.voz.vn/t/{id}";
+            info.Url = $"https://voz.vn/t/{id}";
 
             if (_client == null)
                 _client = new NextVozClient(Setting.Instance.Cookies);
@@ -64,7 +64,7 @@ namespace NextVozDownloadImage
             if (url.StartsWith("//"))
                 return $"http:{url}".Replace("&amp;", "&");
 
-            return $"https://next.voz.vn/{url.TrimStart('/')}";
+            return $"https://voz.vn/{url.TrimStart('/')}";
         }
 
         private async Task getImagesUrl()
@@ -277,7 +277,7 @@ namespace NextVozDownloadImage
 
             for (int i = from; i <= to; i++)
             {
-                this._pages.Enqueue($"https://next.voz.vn/t/{info.ThreadId}/page-{i}");
+                this._pages.Enqueue($"https://voz.vn/t/{info.ThreadId}/page-{i}");
             }
 
             DownloadProcess.Create(Setting.Instance.NumberThreads);

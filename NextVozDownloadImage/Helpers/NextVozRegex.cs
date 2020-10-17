@@ -12,10 +12,10 @@ namespace NextVozDownloadImage.Helpers
 
         private const string REGEX_THREAD_NAME = @"<meta property=""og:title"" content=""(.*)"" \/>";
         private const string REGEX_PAGE = @"pageNav-page.*\/page-(.*)"">.*[^<]*<\/ul>";
-        private const string REGEX_ATTACHMENT = @"<a href=""\/attachments\/(.*)\/"" target=""_blank""";
-        private const string REGEX_IMAGE = @"class=""lbContainer-zoomer .* data-src=""(.*)"" aria-label=""Zoom"">";
-        private const string REGEX_LINK_EXTERNAL = @"<a href=.* class=""link link--external"".*><img.*data-src=""(.*)"" data-url=.*\/>";
-        private const string REGEX_THREAD = @"next.voz.vn\/t\/([^\/]*)";
+        private const string REGEX_ATTACHMENT = @"<a.* href=""\/attachments\/(.*)\/"" target=""_blank""";
+        private const string REGEX_IMAGE = @"class=""bbImageWrapper.*\n.*data-src=""([^""]+)""";
+        private const string REGEX_LINK_EXTERNAL = @"<a href=.* class=""link link--external"".*\n.*\n.*<img src=""([^""]+)""";
+        private const string REGEX_THREAD = @"voz.vn\/t\/([^\/]*)";
         private const string REGEX_Get_PAGE_FROM_URL = @"\/page-(.*)";
         private const string REGEX_GET_TOKEN = @"data-csrf=""(.*)""";
 
