@@ -26,9 +26,16 @@ namespace NextVozDownloadImage.Helpers
 
         public static int GetTotalPage(string html)
         {
-            var page = Regex.Match(html, REGEX_PAGE, RegexOptions.Multiline).Groups[1].Value;
+            try
+            {
+                var page = Regex.Match(html, REGEX_PAGE, RegexOptions.Multiline).Groups[1].Value;
 
-            return Int32.Parse(page);
+                return Int32.Parse(page);
+            }
+            catch
+            {
+                return 1;
+            }
         }
 
         public static string GetThreadId(string url)
