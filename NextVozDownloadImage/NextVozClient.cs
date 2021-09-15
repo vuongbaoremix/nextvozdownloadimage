@@ -14,10 +14,10 @@ namespace NextVozDownloadImage
 
         private HttpClient _client;
 
-        private const string NEXT_VOZ_HOME = "https://next.voz.vn/";
-        private const string NEXT_VOZ_HOST_NAME = "next.voz.vn";
-        private const string LOGIN_URL = "https://next.voz.vn/login/login";
-        private const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36";
+        private const string NEXT_VOZ_HOME = "https://voz.vn/";
+        private const string NEXT_VOZ_HOST_NAME = "voz.vn";
+        private const string LOGIN_URL = "https://voz.vn/login/login";
+        private const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36 Edg/93.0.961.47";
 
         public CookieContainer CookieContainer;
 
