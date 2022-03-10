@@ -64,7 +64,7 @@ namespace NextVozDownloadImage.Helpers
             foreach (var item in arr)
             {
                 var cookieitem = item.Split('=');
-                cookies.Add(new Cookie(cookieitem[0].Trim(), cookieitem[1].Trim(), "/", hostName));
+                cookies.Add(new Cookie(cookieitem[0].Trim(),Uri.EscapeDataString( cookieitem[1].Trim()), "/", hostName));
             }
 
             return cookies;
