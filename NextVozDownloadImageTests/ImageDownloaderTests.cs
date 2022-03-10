@@ -28,7 +28,7 @@ namespace NextVozDownloadImage.Tests
         {
             var cookies = Setting.Instance.Cookies;
 
-            var downloader = new ImageDownloader("https://next.voz.vn/attachments/fb_img_1585840446117-jpg.22472/", cookies);
+            var downloader = new ImageDownloader("https://voz.vn/attachments/1587229700-930-c-ng-s-1587110439-width768height960-jpg.119370/", cookies);
 
             var rs = downloader.GetImageInfo();
 

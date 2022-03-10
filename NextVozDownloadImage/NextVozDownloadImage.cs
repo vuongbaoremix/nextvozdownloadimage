@@ -71,7 +71,7 @@ namespace NextVozDownloadImage
         {
             var tasks = new List<Task>();
 
-            for (int i = 0; i < Math.Max(Setting.Instance.NumberThreads / 2, 1); i++)
+         //   for (int i = 0; i < Math.Max(Setting.Instance.NumberThreads / 2, 1); i++)
             {
                 var task = Task.Run(async () =>
                 {
@@ -123,12 +123,14 @@ namespace NextVozDownloadImage
                     }
                 });
 
-                tasks.Add(task);
+                await task;
 
-                await Task.Delay(500);
+                //tasks.Add(task);
+
+                //await Task.Delay(500);
             }
 
-            Task.WaitAll(tasks.ToArray());
+            //Task.WaitAll(tasks.ToArray());
 
             _isGetThreadsEnd = true;
         }
