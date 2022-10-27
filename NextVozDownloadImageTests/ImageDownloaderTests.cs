@@ -14,10 +14,11 @@ namespace NextVozDownloadImage.Tests
         [TestMethod()]
         public void DownloadTest()
         {
-            var cookies = Setting.Instance.Cookies;
+            var cookies = Setting.Instance.GetCookie(NextVozDownloadImage.Define.XAMVN_HOST);
 
-            var downloader = new ImageDownloader("https://next.voz.vn/attachments/fb_img_1585840446117-jpg.22472/", cookies);
+            var downloader = new ImageDownloader("https://xamvn.day/attachmentsxxxx", cookies, Define.XAMVN_HOST);
 
+            var info = downloader.GetImageInfo();
             var rs = downloader.DownloadAsync().Result;
 
             Assert.IsTrue(rs.Data.Length > 0);
@@ -32,7 +33,17 @@ namespace NextVozDownloadImage.Tests
 
             var rs = downloader.GetImageInfo();
 
-            Assert.IsTrue(rs!=null);
+            Assert.IsTrue(rs != null);
+        }
+
+        [TestMethod()]
+        public void GetPageInfo()
+        {
+            var cookies = Setting.Instance.GetCookie(Define.XAMVN_HOST);
+            var donwloader = new Downloader();
+            var info = donwloader.GetThreadInfo("https://xamvn.day/r/xxxxx").Result;
+
+            Assert.IsTrue(info != null);
         }
     }
 }

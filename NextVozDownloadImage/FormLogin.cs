@@ -15,6 +15,10 @@ namespace NextVozDownloadImage
         public FormLogin()
         {
             InitializeComponent();
+
+            this.cbSite.Items.Add(Define.NEXTVOZ_HOST);
+            this.cbSite.Items.Add(Define.XAMVN_HOST);
+            this.cbSite.SelectedIndex = 0;
         }
 
         private bool validation()
@@ -45,18 +49,22 @@ namespace NextVozDownloadImage
             btnLogin.Enabled = false;
             try
             {
-                var vozClient = new NextVozClient();
+                AbstractXenForoClient client = null;
+                if (this.cbSite.SelectedItem.ToString() == Define.NEXTVOZ_HOST)
+                    client = new NextVozClient();
+                else
+                    client = new XamVnClient();
 
                 if (string.IsNullOrEmpty(rbCookies.Text))
                 {
-                    await vozClient.Login(txtUserName.Text, txtPassword.Text);
+                    await client.Login(txtUserName.Text, txtPassword.Text);
                 }
                 else
                 {
-                    await vozClient.Login(rbCookies.Text);
+                    await client.Login(rbCookies.Text);
                 }
 
-                Setting.Instance.Cookies = vozClient.GetCookies();
+                Setting.Instance.AddCookie(this.cbSite.SelectedItem.ToString(), client.GetCookies());
 
                 this.Close();
             }

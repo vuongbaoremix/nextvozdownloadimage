@@ -35,18 +35,20 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.rbCookies = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbSite = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(83, 18);
+            this.txtUserName.Location = new System.Drawing.Point(79, 40);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(149, 20);
             this.txtUserName.TabIndex = 0;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(83, 49);
+            this.txtPassword.Location = new System.Drawing.Point(79, 71);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(149, 20);
             this.txtPassword.TabIndex = 1;
@@ -55,7 +57,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 21);
+            this.label1.Location = new System.Drawing.Point(15, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 1;
@@ -64,7 +66,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 51);
+            this.label2.Location = new System.Drawing.Point(15, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 1;
@@ -72,7 +74,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(19, 179);
+            this.btnLogin.Location = new System.Drawing.Point(15, 201);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(213, 28);
             this.btnLogin.TabIndex = 3;
@@ -82,7 +84,7 @@
             // 
             // rbCookies
             // 
-            this.rbCookies.Location = new System.Drawing.Point(19, 94);
+            this.rbCookies.Location = new System.Drawing.Point(15, 116);
             this.rbCookies.Name = "rbCookies";
             this.rbCookies.Size = new System.Drawing.Size(213, 72);
             this.rbCookies.TabIndex = 2;
@@ -91,17 +93,37 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 79);
+            this.label3.Location = new System.Drawing.Point(15, 101);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Hoặc sử dụng Cookie:";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(18, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(25, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Site";
+            // 
+            // cbSite
+            // 
+            this.cbSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSite.FormattingEnabled = true;
+            this.cbSite.Location = new System.Drawing.Point(79, 11);
+            this.cbSite.Name = "cbSite";
+            this.cbSite.Size = new System.Drawing.Size(149, 21);
+            this.cbSite.TabIndex = 11;
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(260, 231);
+            this.ClientSize = new System.Drawing.Size(242, 243);
+            this.Controls.Add(this.cbSite);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.rbCookies);
             this.Controls.Add(this.btnLogin);
@@ -126,5 +148,7 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.RichTextBox rbCookies;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbSite;
     }
 }

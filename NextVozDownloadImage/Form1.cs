@@ -19,7 +19,7 @@ namespace NextVozDownloadImage
     {
         private const string BUTTON_PAUSE_TEXT = "Tạm ngừng";
         private const string BUTTON_STOP_TEXT = "Ngừng";
-        private NextVozDownloadImage _downloader = null;
+        private Downloader _downloader = null;
 
         public Form1()
         {
@@ -55,39 +55,34 @@ namespace NextVozDownloadImage
                 txtSavePath.Text = Path.Combine(Application.StartupPath, "Images");
             }
 
-            if (!string.IsNullOrEmpty(Setting.Instance.Cookies))
+            try
             {
-                btnLogin.Enabled = false;
-                btnLogin.Text = "Đang đăng nhập";
-
-                var vozClient = new NextVozClient(Setting.Instance.Cookies);
-
-                Task.Run(async () =>
+                if (!string.IsNullOrEmpty(Setting.Instance.Link))
                 {
-                    try
-                    {
-                        await vozClient.Login(Setting.Instance.Cookies);
+                    var uri = new Uri(Setting.Instance.Link);
 
-                        this.Invoke((Action)(() =>
-                        {
-                            btnLogin.Enabled = true;
-                            btnLogin.Text = "Đăng xuất";
-                        }));
-                    }
-                    catch
+                    if (btnLogin.Text == "Đăng xuất")
                     {
-                        this.Invoke((Action)(() =>
-                        {
-                            btnLogin.Enabled = true;
-                            btnLogin.Text = "Đăng nhập";
-                        }));
-                    }
-                });
+                        Setting.Instance.CookiesDomain.Remove(uri.Host);
+                        Setting.Save();
+
+                        btnLogin.Text = "Đăng nhập"; ;
+
+                        return;
+                    } 
+
+                    if (!string.IsNullOrEmpty(Setting.Instance.GetCookie(uri.Host)))
+                        btnLogin.Text = "Đăng xuất";
+
+                    Setting.Save();
+                }
             }
+            catch (Exception ex)
+            { 
+            }
+ 
 
-            btnLogin.Enabled = string.IsNullOrEmpty(Setting.Instance.Cookies);
-
-            _downloader = new NextVozDownloadImage();
+            _downloader = new Downloader();
 
             if (!string.IsNullOrEmpty(Setting.Instance.Link))
                 linkChanged();
@@ -187,7 +182,7 @@ namespace NextVozDownloadImage
 
             if (_downloader == null || !_downloader.IsDownloading)
             {
-                _downloader = new NextVozDownloadImage();
+                _downloader = new Downloader();
 
                 _downloader.DownloadFinishEvent += (sender) =>
                 {
@@ -323,22 +318,37 @@ namespace NextVozDownloadImage
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (btnLogin.Text == "Đăng xuất")
+            try
             {
-                Setting.Instance.Cookies = "";
-                Setting.Save();
+                if (!string.IsNullOrEmpty(Setting.Instance.Link))
+                {
+                    var uri = new Uri(Setting.Instance.Link);
 
-                btnLogin.Text = "Đăng nhập"; ;
+                    if (btnLogin.Text == "Đăng xuất")
+                    {
+                        Setting.Instance.CookiesDomain.Remove(uri.Host);
+                        Setting.Save();
 
-                return;
+                        btnLogin.Text = "Đăng nhập"; ;
+
+                        return;
+                    }
+
+                    new FormLogin().ShowDialog();
+
+                    if (!string.IsNullOrEmpty(Setting.Instance.GetCookie(uri.Host)))
+                    {
+                        btnLogin.Text = "Đăng xuất";
+                         
+                        _downloader = new Downloader();
+                        this.linkChanged();
+                    }
+                    Setting.Save();
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
-
-            new FormLogin().ShowDialog();
-
-            if (!string.IsNullOrEmpty(Setting.Instance.Cookies))
-                btnLogin.Text = "Đăng xuất";
-
-            Setting.Save();
         }
 
         private void Form1_Load(object sender, EventArgs e)

@@ -13,16 +13,19 @@ namespace NextVozDownloadImage
 {
     public partial class FormLoginBrowser : Form
     {
-        public FormLoginBrowser()
+        string domain = "";
+
+        public FormLoginBrowser(string domain)
         {
             InitializeComponent();
 
+            this.domain = domain;   
             //var fm = new Form();
             var browser = new WebBrowser();  
             this.Controls.Add(browser);
             browser.ScriptErrorsSuppressed = true;
             browser.Dock = DockStyle.Fill;
-            browser.Navigate("https://next.voz.vn/login");
+            browser.Navigate(this.domain);
             browser.Navigated += Browser_Navigated;
         }
 
@@ -30,8 +33,11 @@ namespace NextVozDownloadImage
         {
             Task.Run(() =>
             {
-                var cookies = Cookies.GetUriCookieContainer(new Uri("https://next.voz.vn"));
-                if (NextVozClient.IsLogin(cookies))
+                var cookies = Cookies.GetUriCookieContainer(new Uri(this.domain));
+
+                var client = new NextVozClient();
+
+                if (client.IsLogin(cookies))
                 {
                     try
                     {

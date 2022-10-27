@@ -12,13 +12,17 @@ using System.Windows.Forms;
 
 namespace NextVozDownloadImage
 {
-    public class NextVozDownloadImage
+    public class Downloader
     {
         private ConcurrentQueue<string> _pages = new ConcurrentQueue<string>();
         private ConcurrentQueue<Tuple<string, string>> _images = new ConcurrentQueue<Tuple<string, string>>();
         private List<Task> _tasks = new List<Task>();
         private HashSet<int> _downloadedImage = new HashSet<int>();
-        private NextVozClient _client;
+        private IClient _client;
+        private IParser _parser = null;
+        private string _cookie;
+        private string _domain;
+
         private ImageStore _store;
 
         private bool _isPause = false;
@@ -31,41 +35,45 @@ namespace NextVozDownloadImage
         public delegate void OnDownloadFinish(object sender);
         public event OnDownloadFinish DownloadFinishEvent;
 
-        public NextVozDownloadImage()
+        public Downloader()
         {
         }
 
         public async Task<ThreadInfo> GetThreadInfo(string url)
         {
-            var id = Helpers.NextVozRegex.GetThreadId(url);
+            this._parser = Parser.GetParser(url);
+            var id = this._parser.GetThreadId(url);
             if (string.IsNullOrEmpty(id))
                 id = url;
 
             var info = new ThreadInfo();
             info.ThreadId = id;
-            info.Url = $"https://voz.vn/t/{id}";
+            info.Url = this._parser.GetThreadUrl(id);
 
             if (_client == null)
-                _client = new NextVozClient(Setting.Instance.Cookies);
+            {
+                if (this._parser is XamVnParser)
+                {
+                    this._domain = Define.XAMVN_HOST;
+                    this._cookie = Setting.Instance.GetCookie(Define.XAMVN_HOST);
+
+                    _client = new XamVnClient(this._cookie);
+                }
+                else
+                { 
+                    this._domain = Define.XAMVN_HOST;
+                    this._cookie = Setting.Instance.GetCookie(Define.XAMVN_HOST);
+                    _client = new NextVozClient(this._cookie);
+                } 
+            }
 
             var content = await _client.GetContent(info.Url);
 
-            info.Name = Helpers.NextVozRegex.GetThreadName(content);
-            info.Page = Helpers.NextVozRegex.GetTotalPage(content);
+            info.Name = this._parser.GetThreadName(content);
+            info.Page = this._parser.GetTotalPage(content);
 
             return info;
-        }
-
-        private string getImageUrl(string url)
-        {
-            if (url.StartsWith("http"))
-                return url.Replace("&amp;", "&");
-
-            if (url.StartsWith("//"))
-                return $"http:{url}".Replace("&amp;", "&");
-
-            return $"https://voz.vn/{url.TrimStart('/')}";
-        }
+        } 
 
         private async Task getImagesUrl()
         {
@@ -92,24 +100,12 @@ namespace NextVozDownloadImage
                             {
                                 var content = await _client.GetContent(page);
 
-                                var images = NextVozRegex.GetImages(content).Select(url => getImageUrl(url));
-                                var attachments = NextVozRegex.GetAttachmentImages(content).Select(url => getImageUrl($"attachments/{url}"));
-                                var linkExternal = NextVozRegex.GetImageInLinkExternal(content).Select(url => getImageUrl(url));
+                                var images = this._parser.GetImages(content); 
 
                                 foreach (var item in images)
                                 {
                                     _images.Enqueue(new Tuple<string, string>(page, item));
-                                }
-
-                                foreach (var item in attachments)
-                                {
-                                    _images.Enqueue(new Tuple<string, string>(page, item));
-                                }
-
-                                foreach (var item in linkExternal)
-                                {
-                                    _images.Enqueue(new Tuple<string, string>(page, item));
-                                }
+                                } 
                             }
                             catch (Exception ex)
                             {
@@ -123,7 +119,7 @@ namespace NextVozDownloadImage
                     }
                 });
 
-              //  await task;
+                //  await task;
 
                 tasks.Add(task);
 
@@ -172,7 +168,7 @@ namespace NextVozDownloadImage
                             {
                                 _store.Info.LastDownloadedPage = NextVozRegex.GetPage(item.Item1);
 
-                                using (var downloader = new ImageDownloader(item.Item2, Setting.Instance.Cookies))
+                                using (var downloader = new ImageDownloader(item.Item2, this._cookie, this._domain))
                                 {
 
                                     //  var info = downloader.GetImageInfo();
@@ -263,8 +259,24 @@ namespace NextVozDownloadImage
             _isPause = false;
             _isStop = false;
             _isGetThreadsEnd = false;
+            this._parser = Parser.GetParser(Setting.Instance.Link);
 
-            _client = new NextVozClient(Setting.Instance.Cookies);
+            if (_client == null)
+            {
+                if (this._parser is XamVnParser)
+                {
+                    this._domain = Define.XAMVN_HOST;
+                    this._cookie = Setting.Instance.GetCookie(Define.XAMVN_HOST);
+
+                    _client = new XamVnClient(this._cookie);
+                }
+                else
+                {
+                    this._domain = Define.XAMVN_HOST;
+                    this._cookie = Setting.Instance.GetCookie(Define.XAMVN_HOST);
+                    _client = new NextVozClient(this._cookie);
+                }
+            }
 
             var info = await GetThreadInfo(Setting.Instance.Link);
             var from = Math.Max(Setting.Instance.FromPage, 1);
@@ -278,7 +290,7 @@ namespace NextVozDownloadImage
 
             for (int i = from; i <= to; i++)
             {
-                this._pages.Enqueue($"https://voz.vn/t/{info.ThreadId}/page-{i}");
+                this._pages.Enqueue(this._parser.GetThreadUrl(info.ThreadId, i));
             }
 
             DownloadProcess.Create(Setting.Instance.NumberThreads);

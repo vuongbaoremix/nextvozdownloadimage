@@ -15,16 +15,18 @@ namespace NextVozDownloadImage
         private const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 Edg/99.0.1150.36";
 
         private string _cookies = "";
+        private string _domain = "";
         private string _url = "";
 
         public delegate void ProcessChanged(object sender, int value);
         public event ProcessChanged ProgressChangedEventHandler;
         public byte[] Data;
 
-        public ImageDownloader(string url, string cookies = "")
+        public ImageDownloader(string url, string cookies = "", string domain="")
         {
             this._url = url;
             this._cookies = cookies;
+            this._domain = domain;
         }
 
         public async Task<ImageInfo> DownloadAsync()
@@ -45,7 +47,7 @@ namespace NextVozDownloadImage
                 var contentDisposition = webClient.ResponseHeaders["Content-Disposition"];
 
                 if (!contentType.Contains("image"))
-                    throw new Exception("Is not image format.");
+                    throw new Exception("Invalid image format.");
                 if (data == null || data.Length == 0)
                     throw new Exception("Download image info error");
 
@@ -87,7 +89,7 @@ namespace NextVozDownloadImage
             req.Method = "HEAD";
             req.UserAgent = USER_AGENT;
             if (!string.IsNullOrEmpty(this._cookies))
-                req.CookieContainer = Cookies.ParseCookies(this._cookies, "next.voz.vn");
+                req.CookieContainer = Cookies.ParseCookies(this._cookies, this._domain);
 
             using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
             {

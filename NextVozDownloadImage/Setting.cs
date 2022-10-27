@@ -23,6 +23,20 @@ namespace NextVozDownloadImage
         public string Cookies { set; get; }
         public bool IgnoreSmallImage { set; get; } = true;
         public bool CreateDirByThreadName { set; get; } = true;
+        public Dictionary<string, string> CookiesDomain = new Dictionary<string, string>();
+
+        public string GetCookie(string domain)
+        {
+            if(this.CookiesDomain.ContainsKey(domain))
+                return this.CookiesDomain[domain];
+
+            return "";
+        }
+
+        public void AddCookie(string domain, string value)
+        {
+            this.CookiesDomain[domain] = value;
+        }
 
         public static Setting Load()
         {
