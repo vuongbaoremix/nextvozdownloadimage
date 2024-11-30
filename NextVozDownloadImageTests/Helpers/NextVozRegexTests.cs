@@ -11,8 +11,10 @@ namespace NextVozDownloadImage.Helpers.Tests
     [TestClass()]
     public class NextVozRegexTests
     {
-        const string LINK = "https://next.voz.vn/t/no-sex-ao-dai.14257/";
-        private const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36";
+        const string LINK = "https://voz.vn/t/no-sex-vitamin-gai-xinh-moi-ngay-cho-đoi-mat-sang-khoe-đep.783806";
+        const string THREAD_ID = "no-sex-vitamin-gai-xinh-moi-ngay-cho-đoi-mat-sang-khoe-đep.783806";
+
+        private const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0";
 
         private static string initContent = "";
         private static NextVozClient client;
@@ -34,17 +36,17 @@ namespace NextVozDownloadImage.Helpers.Tests
         { 
             var name = Helpers.NextVozRegex.GetThreadName(initContent);
 
-            Assert.AreEqual(name, "[No Sex] Áo dài");
+            Assert.AreEqual(name, "[No Sex] Vitamin gái xinh mỗi ngày cho đôi mắt sáng khỏe đẹp");
         }
 
         [TestMethod()]
         public void GetThreadIdTest()
         {  
-            Assert.AreEqual(NextVozRegex.GetThreadId("https://next.voz.vn/t/no-sex-ao-dai.14257/"), "no-sex-ao-dai.14257");
-            Assert.AreEqual(NextVozRegex.GetThreadId("https://next.voz.vn/t/no-sex-ao-dai.14257"), "no-sex-ao-dai.14257");
-            Assert.AreEqual(NextVozRegex.GetThreadId("https://next.voz.vn/t/no-sex-ao-dai.14257/page-1"), "no-sex-ao-dai.14257");
-            Assert.AreEqual(NextVozRegex.GetThreadId("https://next.voz.vn/t/no-sex-ao-dai.14257/page-1#post-1234"), "no-sex-ao-dai.14257");
-            Assert.AreNotEqual(NextVozRegex.GetThreadId("https://next.voz.vn/no-sex-ao-dai.14257/page-1#post-1234"), "no-sex-ao-dai.14257");
+            Assert.AreEqual(NextVozRegex.GetThreadId($"{LINK}/"), THREAD_ID);
+            Assert.AreEqual(NextVozRegex.GetThreadId($"{LINK}"), THREAD_ID);
+            Assert.AreEqual(NextVozRegex.GetThreadId($"{LINK}/page-1"), THREAD_ID);
+            Assert.AreEqual(NextVozRegex.GetThreadId($"{LINK}/page-1#post-1234"), THREAD_ID);
+            Assert.AreNotEqual(NextVozRegex.GetThreadId($"{LINK}/page-1#post-1234"), THREAD_ID);
         }
 
         [TestMethod()]
@@ -52,7 +54,7 @@ namespace NextVozDownloadImage.Helpers.Tests
         {
             var page = Helpers.NextVozRegex.GetTotalPage(initContent);
 
-            Assert.AreEqual(page, 8);
+            Assert.AreEqual(page, 253);
         }
 
         [TestMethod()]

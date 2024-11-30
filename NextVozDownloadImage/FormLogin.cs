@@ -55,6 +55,8 @@ namespace NextVozDownloadImage
                 else
                     client = new XamVnClient();
 
+                await client.InitialAsync();
+
                 if (string.IsNullOrEmpty(rbCookies.Text))
                 {
                     await client.Login(txtUserName.Text, txtPassword.Text);

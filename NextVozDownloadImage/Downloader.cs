@@ -1,4 +1,5 @@
-﻿using NextVozDownloadImage.Helpers;
+﻿using Newtonsoft.Json.Linq;
+using NextVozDownloadImage.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -60,11 +61,13 @@ namespace NextVozDownloadImage
                     _client = new XamVnClient(this._cookie);
                 }
                 else
-                { 
+                {
                     this._domain = Define.XAMVN_HOST;
                     this._cookie = Setting.Instance.GetCookie(Define.XAMVN_HOST);
                     _client = new NextVozClient(this._cookie);
-                } 
+                }
+
+                await _client.InitialAsync();
             }
 
             var content = await _client.GetContent(info.Url);
@@ -73,7 +76,7 @@ namespace NextVozDownloadImage
             info.Page = this._parser.GetTotalPage(content);
 
             return info;
-        } 
+        }
 
         private async Task getImagesUrl()
         {
@@ -100,12 +103,12 @@ namespace NextVozDownloadImage
                             {
                                 var content = await _client.GetContent(page);
 
-                                var images = this._parser.GetImages(content); 
+                                var images = this._parser.GetImages(content);
 
                                 foreach (var item in images)
                                 {
                                     _images.Enqueue(new Tuple<string, string>(page, item));
-                                } 
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -168,43 +171,38 @@ namespace NextVozDownloadImage
                             {
                                 _store.Info.LastDownloadedPage = NextVozRegex.GetPage(item.Item1);
 
-                                using (var downloader = new ImageDownloader(item.Item2, this._cookie, this._domain))
+                                //  var info = downloader.GetImageInfo();
+
+                                DownloadProcess.Update(index, new ImageInfo
                                 {
+                                    Url = item.Item2,
+                                });
+                                DownloadProcess.UpdateProcess(index, 0);
 
-                                    //  var info = downloader.GetImageInfo();
 
-                                    DownloadProcess.Update(index, new ImageInfo
+                                var image = await this._client.DownloadImageAsync(item.Item2, (totalBytesRead, totalBytes) =>
+                                {
+                                    DownloadProcess.UpdateProcess(index, (int)(totalBytesRead * 100.0 / totalBytes));
+
+                                });
+
+                                if (Setting.Instance.IgnoreSmallImage)
+                                {
+                                    using (var imgStream = new MemoryStream(image.Data))
                                     {
-                                        Url = item.Item2,
-                                    });
-
-                                    downloader.ProgressChangedEventHandler += (sender, value) =>
-                                    {
-                                        DownloadProcess.UpdateProcess(index, value);
-                                    };
-
-                                    DownloadProcess.UpdateProcess(index, 0);
-
-                                    var data = await downloader.DownloadAsync();
-
-                                    if (Setting.Instance.IgnoreSmallImage)
-                                    {
-                                        using (var imgStream = new MemoryStream(data.Data))
+                                        using (var img = Image.FromStream(imgStream))
                                         {
-                                            using (var img = Image.FromStream(imgStream))
-                                            {
-                                                if (img.Width < 200 || img.Height < 200)
-                                                    continue;
-                                            }
+                                            if (img.Width < 200 || img.Height < 200)
+                                                continue;
                                         }
                                     }
-
-                                    _store.Save(data.Data, data.GetFileName());
-
-                                    Status.IncrementSize(data.Size);
-                                    Status.IncrementDownload();
-                                    Status.Update();
                                 }
+
+                                _store.Save(image.Data, image.GetFileName());
+
+                                Status.IncrementSize(image.Size);
+                                Status.IncrementDownload();
+                                Status.Update();
                             }
                             catch (Exception ex)
                             {
@@ -276,6 +274,7 @@ namespace NextVozDownloadImage
                     this._cookie = Setting.Instance.GetCookie(Define.XAMVN_HOST);
                     _client = new NextVozClient(this._cookie);
                 }
+                await _client.InitialAsync();
             }
 
             var info = await GetThreadInfo(Setting.Instance.Link);

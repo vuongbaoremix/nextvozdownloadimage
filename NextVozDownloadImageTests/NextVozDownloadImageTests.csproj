@@ -58,6 +58,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CurlWrapperTests.cs" />
     <Compile Include="Helpers\NextVozClientTests.cs" />
     <Compile Include="Helpers\NextVozRegexTests.cs" />
     <Compile Include="ImageDownloaderTests.cs" />

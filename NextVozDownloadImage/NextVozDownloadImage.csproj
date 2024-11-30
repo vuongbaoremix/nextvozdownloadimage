@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractXenForoClient.cs" />
+    <Compile Include="CurlWrapper.cs" />
     <Compile Include="Define.cs" />
     <Compile Include="DownloadedInfo.cs" />
     <Compile Include="DownloadProcess.cs" />

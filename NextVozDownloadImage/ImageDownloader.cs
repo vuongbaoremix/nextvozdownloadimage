@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -18,11 +20,14 @@ namespace NextVozDownloadImage
         private string _domain = "";
         private string _url = "";
 
+
         public delegate void ProcessChanged(object sender, int value);
         public event ProcessChanged ProgressChangedEventHandler;
         public byte[] Data;
 
-        public ImageDownloader(string url, string cookies = "", string domain="")
+        public IClient Client = null;
+
+        public ImageDownloader(string url, string cookies = "", string domain = "")
         {
             this._url = url;
             this._cookies = cookies;
@@ -32,6 +37,22 @@ namespace NextVozDownloadImage
         public async Task<ImageInfo> DownloadAsync()
         {
             Data = null;
+
+
+            //CurlWrapper Curl = new CurlWrapper();
+            //Data = Curl.Download(this._url, USER_AGENT);
+            //{
+            //    var imageInfo = new ImageInfo();
+            //    Uri uri = new Uri(this._url);
+
+            //    imageInfo.Url = this._url;
+            //    imageInfo.Size = Data.Length;
+            //    imageInfo.Extension = "jpg";
+            //    imageInfo.Data = Data;
+            //    imageInfo.Name = System.IO.Path.GetFileNameWithoutExtension(uri.AbsolutePath).Split('.').FirstOrDefault();
+
+            //    return imageInfo;
+            //}
 
             using (var webClient = new WebClient())
             {
@@ -60,7 +81,7 @@ namespace NextVozDownloadImage
 
                 if (!string.IsNullOrEmpty(contentDisposition) && contentDisposition.Contains("filename"))
                 {
-                    imageInfo.Name = Regex.Match(contentDisposition, @"filename=""(.*)\.(.*)""").Groups[1].Value; 
+                    imageInfo.Name = Regex.Match(contentDisposition, @"filename=""(.*)\.(.*)""").Groups[1].Value;
                 }
 
                 if (string.IsNullOrEmpty(imageInfo.Name))

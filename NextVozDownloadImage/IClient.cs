@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace NextVozDownloadImage
@@ -12,6 +13,7 @@ namespace NextVozDownloadImage
         Task Login(string cookies);
         Task Login(string userName, string password); 
         bool IsLogin(CookieContainer cookieContainer);
-
+        Task InitialAsync();
+        Task<ImageInfo> DownloadImageAsync(string url, Action<long, long> downloadProgressCallback);
     }
 }
