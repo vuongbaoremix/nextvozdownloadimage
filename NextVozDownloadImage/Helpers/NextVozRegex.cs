@@ -27,7 +27,7 @@ namespace NextVozDownloadImage.Helpers
         private const string REGEX_THREAD_NAME = @"<meta property=""og:title"" content=""(.*)"" \/>";
         private const string REGEX_PAGE = @"pageNav-page.*\/page-(.*)"">.*[^<]*<\/ul>";
         private const string REGEX_ATTACHMENT = @"<a.* href=""\/attachments\/(.*)\/"" target=""_blank""";
-        private const string REGEX_IMAGE = @"class=""bbImageWrapper.*data-src=""([^""]+)""";
+        private const string REGEX_IMAGE = @"class=""bbImageWrapper.*|\n?data-src=""([^""]+)""";
         private const string REGEX_LINK_EXTERNAL = @"<a href=.* class=""link link--external"".*\n.*\n.*<img src=""([^""]+)""";
         private const string REGEX_THREAD = @"voz.vn\/t\/([^\/]*)";
         private const string REGEX_Get_PAGE_FROM_URL = @"\/page-(.*)";
@@ -73,7 +73,7 @@ namespace NextVozDownloadImage.Helpers
             if (url.StartsWith("//"))
                 return $"http:{url}".Replace("&amp;", "&");
 
-            return $"https://{Define.NEXTVOZ_HOST}/{url.TrimStart('/')}";
+            return $"https://{Define.NEXTVOZ_HOST}/{url.TrimStart('/').Replace("&amp;", "&")}";
         }
 
         public IEnumerable<string> GetImages(string html)
@@ -207,7 +207,7 @@ namespace NextVozDownloadImage.Helpers
         private const string REGEX_THREAD_NAME = @"<meta property=""og:title"" content=""(.*)"" \/>";
         private const string REGEX_PAGE = @"pageNav-page.*\/page-(.*)"">.*[^<]*<\/ul>";
         private const string REGEX_ATTACHMENT = @"<a.* href=""\/attachments\/(.*)\/"" target=""_blank""";
-        private const string REGEX_IMAGE = @"class=""bbImageWrapper.*data-src=""([^""]+)""";
+        private const string REGEX_IMAGE = @"class=""bbImageWrapper.*|\n?data-src=""([^""]+)""";
         private const string REGEX_LINK_EXTERNAL = @"<a href=.* class=""link link--external"".*\n.*\n.*<img src=""([^""]+)""";
         private const string REGEX_THREAD = @"voz.vn\/t\/([^\/]*)";
         private const string REGEX_Get_PAGE_FROM_URL = @"\/page-(.*)";
